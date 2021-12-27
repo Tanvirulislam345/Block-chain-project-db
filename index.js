@@ -39,6 +39,16 @@ async function run() {
         res.json(result);
     });
 
+    //update a value
+    app.put('/popularitems/:id', async (req, res) => {
+      const id = req.params.id;
+      const query = { _id: ObjectId(id) };
+      const updateDoc = { $inc: { likes: 1 } };
+      const options = { upsert: true };
+      const result = await popularItems.updateOne(query, updateDoc, options);
+      res.send(result);
+  });
+
     //Post all comments for popolar items
     app.post('/popularitems/comments', async (req, res) => {
       const product = req.body;
@@ -63,12 +73,23 @@ async function run() {
         // console.log('find all data');
         res.json(result);
     });
+
     //find single popularitems
     app.get('/featureditems/:id', async (req, res) => {
       const id = req.params.id;
       const query = { _id: ObjectId(id) };
       const result = await featuredItems.findOne(query);
       res.json(result);
+  });
+
+    //update a value
+    app.put('/featureditems/:id', async (req, res) => {
+      const id = req.params.id;
+      const query = { _id: ObjectId(id) };
+      const updateDoc = { $inc: { likes: 1 } };
+      const options = { upsert: true };
+      const result = await featuredItems.updateOne(query, updateDoc, options);
+      res.send(result);
   });
 
       //Post all comments for featured items
