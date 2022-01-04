@@ -21,10 +21,10 @@ async function run() {
     const database = client.db("Block-chain-database");
     const allItems = database.collection("all-items");
     const allItemscomments = database.collection("all-items-comments");
-    const popularItems = database.collection("popular-items");
-    const popularItemscomments = database.collection("popular-items-comments");
-    const featuredItemscomments = database.collection("featured-items-comments");
-    const featuredItems = database.collection("featured-items");
+    // const popularItems = database.collection("popular-items");
+    // const popularItemscomments = database.collection("popular-items-comments");
+    // const featuredItemscomments = database.collection("featured-items-comments");
+    // const featuredItems = database.collection("featured-items");
 
 
     //find all popularitems
