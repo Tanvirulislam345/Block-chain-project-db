@@ -21,6 +21,7 @@ async function run() {
     const database = client.db("Block-chain-database");
     const allItems = database.collection("all-items");
     const allItemscomments = database.collection("all-items-comments");
+    const registerPeople = database.collection("all-registration");
     // const popularItems = database.collection("popular-items");
     // const popularItemscomments = database.collection("popular-items-comments");
     // const featuredItemscomments = database.collection("featured-items-comments");
@@ -65,6 +66,14 @@ async function run() {
     app.get('/allitems/comments/all', async (req, res) => {
       const cursor = allItemscomments.find({});
       const result = await cursor.toArray();
+      res.json(result);
+    });
+
+
+    app.post('/allregistration', async (req, res) => {
+      const people = req.body;
+      const result = await registerPeople.insertOne(people);
+      // console.log(result);
       res.json(result);
     });
 
