@@ -97,9 +97,7 @@ async function run() {
         collectionList,
         file: fileBuffer
       };
-      console.log(createNFT);
       const result = await createNftCollection.insertOne(createNFT);
-      console.log(result);
       res.json(result);
     });
 
