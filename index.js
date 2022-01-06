@@ -3,6 +3,7 @@ const { MongoClient } = require('mongodb');
 const ObjectId = require('mongodb').ObjectId;
 const cors = require('cors');
 require('dotenv').config();
+const fileUpload = require('express-fileupload');
 
 const app = express();
 const port = process.env.PORT || 9000;
@@ -10,6 +11,7 @@ const port = process.env.PORT || 9000;
 //middleware
 app.use(cors());
 app.use(express.json());
+app.use(fileUpload());
 
 
 const uri = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@cluster0.845tn.mongodb.net/myFirstDatabase?retryWrites=true&w=majority`;
@@ -22,6 +24,7 @@ async function run() {
     const allItems = database.collection("all-items");
     const allItemscomments = database.collection("all-items-comments");
     const registerPeople = database.collection("all-registration");
+    const createNftCollection = database.collection("create-nft-collection");
     // const popularItems = database.collection("popular-items");
     // const popularItemscomments = database.collection("popular-items-comments");
     // const featuredItemscomments = database.collection("featured-items-comments");
@@ -68,12 +71,35 @@ async function run() {
       const result = await cursor.toArray();
       res.json(result);
     });
-
-
+    
+    //post data all registration
     app.post('/allregistration', async (req, res) => {
       const people = req.body;
       const result = await registerPeople.insertOne(people);
       // console.log(result);
+      res.json(result);
+    });
+
+    //post data all create nft
+    app.post('/create-nft', async (req, res) => {
+      const itemName = req.body.ItemName;
+      const externalLink = req.body.ExternalLink;
+      const description = req.body.Description;
+      const collectionList = req.body.CollectionList;
+      const file = req.files.files;
+      const fileData = file.data;
+      const encodedFile = fileData.toString('base64');
+      const fileBuffer = Buffer.from(encodedFile, 'base64');
+      const createNFT = {
+        itemName,
+        externalLink,
+        description,
+        collectionList,
+        file: fileBuffer
+      };
+      console.log(createNFT);
+      const result = await createNftCollection.insertOne(createNFT);
+      console.log(result);
       res.json(result);
     });
 
