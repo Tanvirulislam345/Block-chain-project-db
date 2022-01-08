@@ -71,7 +71,7 @@ async function run() {
       const result = await cursor.toArray();
       res.json(result);
     });
-    
+
     //post data all registration
     app.post('/allregistration', async (req, res) => {
       const people = req.body;
@@ -98,6 +98,13 @@ async function run() {
         file: fileBuffer
       };
       const result = await createNftCollection.insertOne(createNFT);
+      res.json(result);
+    });
+
+    app.get('/create-nft', async (req, res) => {
+      const cursor = createNftCollection.find({});
+      const result = await cursor.toArray();
+      // console.log(result);
       res.json(result);
     });
 
